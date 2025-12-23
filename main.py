@@ -27,6 +27,9 @@ class User(Base):
     email=Column(VARCHAR(100))
     password=Column(LargeBinary)
 
+#create all the tables in the database
+Base.metadata.create_all(engine) 
+
 
 
 @app.post('/signup')
