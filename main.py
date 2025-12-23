@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from sqlalchemy import TEXT, VARCHAR, Column, create_engine
+from sqlalchemy import TEXT, VARCHAR, Column, LargeBinary, create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -22,7 +22,7 @@ Base=declarative_base()
 class User(Base):
     __tablename__='users'
 
-    id=Column(TEXT)
+    id=Column(TEXT,primary_key=True)
     Name=Column(VARCHAR(100))
     email=Column(VARCHAR(100))
     password=Column(LargeBinary)
