@@ -25,7 +25,7 @@ class User(Base):
     id=Column(TEXT)
     Name=Column(VARCHAR(100))
     email=Column(VARCHAR(100))
-    password=Column(TEXT)
+    password=Column(LargeBinary)
 
 
 
