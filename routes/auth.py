@@ -47,6 +47,8 @@ def login_user(user:UserLogin,db:Session=Depends(get_db)):
 
     if not is_match:
         raise HTTPException(400,'Incorrect password')
+
+    return user_db
     #if doesnot exist signup
     #password matching or not
     #if doesnot match return error
