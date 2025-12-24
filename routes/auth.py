@@ -6,6 +6,9 @@ from database import get_db
 from models.user import User
 from pydantic_schemas.user_create import UserCreate
 from sqlalchemy.orm import Session
+from pydantic_schemas.user_login import UserLogin
+
+
 
 
 router=APIRouter()
@@ -31,5 +34,22 @@ def signup_user(user:UserCreate,db:Session=Depends(get_db)):
     db.refresh(user_db)
 
     return user_db
+
+@router.post('/login')
+def login_user(user:UserLogin,db:Session=Depends(get_db)):
+    #check is user with same email exist or not
+    user_db=db.query(User).filter(User.email == user.email).first()
+
+    if not user_db:
+        raise HTTPException(400,'User with this email does not exist!')
+
+    is_match=bcrypt.checkpw(user.password.encode(),user_db.password)
+
+    if not is_match:
+        raise HTTPException(400,'Incorrect password')
+    #if doesnot exist signup
+    #password matching or not
+    #if doesnot match return error
+    pass 
 
 
