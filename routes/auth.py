@@ -1,15 +1,17 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 import uuid
 import bcrypt
 from fastapi import HTTPException
+from database import get_db
 from models.user import User
 from pydantic_schemas.user_create import UserCreate
-from database import db
+from sqlalchemy.orm import Session
+
 
 router=APIRouter()
 
 @router.post('/signup')
-def signup_user(user:UserCreate):
+def signup_user(user:UserCreate,db:Session=Depends(get_db)):
     
     #extracts the data thats coming from req
     
