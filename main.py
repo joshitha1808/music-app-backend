@@ -1,9 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import TEXT, VARCHAR, Column, LargeBinary, create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
+import bcrypt
 
 app=FastAPI()
 
@@ -43,16 +44,18 @@ def signup_user(user:UserCreate):
     user_db = db.query(User).filter(User.email == user.email).first()
 
     if user_db:
-        return 'user with same email already exists!'
+        raise HTTPException(400,'user with same email already exists!')
+    hashed_pw=bcrypt.hashpw(user.password.encode(),bcrypt.gensalt())
+    user_db = User(id=str(uuid.uuid4()), email=user.email, password=hashed_pw, Name=user.name)
     
-    
-
     #add the user to the db if do not exists
-    new_user = User(id=str(uuid.uuid4()), email=user.email, password=user.password.encode(), Name=user.name)
-    db.add(new_user)
+    
+    db.add(user_db)
     db.commit()
+    db.refresh(user_db)
 
-    return {"message": "User created successfully", "user_id": new_user.id}
+    return user_db
+
+    #return {"message": "User created successfully", "user_id": new_user.id}
 
 Base.metadata.create_all(engine) 
-
