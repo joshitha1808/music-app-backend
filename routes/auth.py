@@ -13,7 +13,7 @@ from pydantic_schemas.user_login import UserLogin
 
 router=APIRouter()
 
-@router.post('/signup')
+@router.post('/signup',status_code=201)
 def signup_user(user:UserCreate,db:Session=Depends(get_db)):
     
     #extracts the data thats coming from req
