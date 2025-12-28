@@ -55,6 +55,16 @@ def login_user(user:UserLogin,db:Session=Depends(get_db)):
     #if doesnot exist signup
     #password matching or not
     #if doesnot match return error
-    
 
+@router.get('/')
+def current_user_data(db:Session=Depends(get_db)):
+    # get the user token from the headers
+    # decode the token
+    # get the id from the token
+    # postgress database get the user info
+
+
+    pass
+
+    
 
