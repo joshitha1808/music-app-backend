@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Header
 import uuid
 import bcrypt
 from fastapi import HTTPException
@@ -57,7 +57,7 @@ def login_user(user:UserLogin,db:Session=Depends(get_db)):
     #if doesnot match return error
 
 @router.get('/')
-def current_user_data(db:Session=Depends(get_db)):
+def current_user_data(db:Session=Depends(get_db),x_auth_token=Header()):
     # get the user token from the headers
     # decode the token
     # get the id from the token
