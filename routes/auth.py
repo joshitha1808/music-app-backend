@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 import uuid
 import bcrypt
 from fastapi import HTTPException
+import jwt
 from database import get_db
 from models.user import User
 from pydantic_schemas.user_create import UserCreate
@@ -47,11 +48,13 @@ def login_user(user:UserLogin,db:Session=Depends(get_db)):
 
     if not is_match:
         raise HTTPException(400,'Incorrect password')
+    
+    token=jwt.encode({'id':user_db.id},'password_key')
 
-    return user_db
+    return {'token':token,'user':user_db}
     #if doesnot exist signup
     #password matching or not
     #if doesnot match return error
-    pass 
+    
 
 
