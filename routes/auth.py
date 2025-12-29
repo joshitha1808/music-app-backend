@@ -59,6 +59,9 @@ def login_user(user:UserLogin,db:Session=Depends(get_db)):
 @router.get('/')
 def current_user_data(db:Session=Depends(get_db),x_auth_token=Header()):
     # get the user token from the headers
+    if not x_auth_token:
+        raise HTTPException(401,'No auth token,access denied!')
+
     # decode the token
     # get the id from the token
     # postgress database get the user info
