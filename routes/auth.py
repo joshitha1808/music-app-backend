@@ -68,6 +68,8 @@ def current_user_data(db:Session=Depends(get_db),x_auth_token=Header()):
     if not verified_token:
         raise HTTPException(401,'Token verification failed,authorization')
     # get the id from the token
+    uid=verified_token.get('id')
+    return uid
     # postgress database get the user info
 
 
