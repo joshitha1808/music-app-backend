@@ -55,7 +55,6 @@ def login_user(user:UserLogin,db:Session=Depends(get_db)):
     #if doesnot exist signup
     #password matching or not
     #if doesnot match return error
-
 @router.get('/')
 def current_user_data(db:Session=Depends(get_db),x_auth_token=Header()):
     # get the user token from the headers
@@ -63,7 +62,7 @@ def current_user_data(db:Session=Depends(get_db),x_auth_token=Header()):
         raise HTTPException(401,'No auth token,access denied!')
 
     # decode the token
-    verified_token=jwt.decode(x_auth_token,'password_key')
+    verified_token=jwt.decode(x_auth_token,'password_key',['HS256'])
 
     if not verified_token:
         raise HTTPException(401,'Token verification failed,authorization')
@@ -71,6 +70,8 @@ def current_user_data(db:Session=Depends(get_db),x_auth_token=Header()):
     uid=verified_token.get('id')
     return uid
     # postgress database get the user info
+
+
 
 
     pass
