@@ -57,23 +57,4 @@ def login_user(user:UserLogin,db:Session=Depends(get_db)):
     #if doesnot match return error
 @router.get('/')
 def current_user_data(db: Session = Depends(get_db), x_auth_token = Header()):
-    # 1. Check for token
-    if not x_auth_token:
-        raise HTTPException(401, 'No auth token, access denied!')
-
-    try:
-        # 2. Decode the token (Logic must be inside 'try')
-        verified_token = jwt.decode(x_auth_token, 'password_key', algorithms=['HS256'])
-
-        if not verified_token:
-            raise HTTPException(401, 'Token verification failed, authorization')
-
-        # 3. Get the id from the token
-        uid = verified_token.get('id')
-        return uid
-    
-    #postgress database get the user info 
-    except jwt.PyJWTError:
-        # This catches errors like expired or fake tokens
-        raise HTTPException(401, 'Token is not valid, authorization failed')
-
+    pass
