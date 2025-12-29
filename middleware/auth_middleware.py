@@ -15,7 +15,7 @@ def auth_middleware(x_auth_token=Header()):
 
         # 3. Get the id from the token
         uid = verified_token.get('id')
-        return uid
+        return {'uid':uid,'token':x_auth_token}
     
     #postgress database get the user info 
     except jwt.PyJWTError:
