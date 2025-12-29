@@ -1,4 +1,5 @@
 from fastapi import HTTPException, Header
+import jwt
 
 
 def auth_middleware(x_auth_token=Header()):
