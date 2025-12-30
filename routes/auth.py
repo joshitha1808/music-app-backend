@@ -28,7 +28,7 @@ def signup_user(user:UserCreate,db:Session=Depends(get_db)):
     if user_db:
         raise HTTPException(400,'user with same email already exists!')
     hashed_pw=bcrypt.hashpw(user.password.encode(),bcrypt.gensalt())
-    user_db = User(id=str(uuid.uuid4()), email=user.email, password=hashed_pw, Name=user.name)
+    user_db = User(id=str(uuid.uuid4()), email=user.email, password=hashed_pw, name=user.name)
 
     #add the user to the db if do not exists
     
