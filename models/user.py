@@ -5,6 +5,6 @@ class User(Base):
     __tablename__='users'
 
     id=Column(TEXT,primary_key=True)
-    Name=Column(VARCHAR(100))
+    name=Column('Name',VARCHAR(100))
     email=Column(VARCHAR(100))
     password=Column(LargeBinary)
