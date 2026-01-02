@@ -1,3 +1,4 @@
+import uuid
 from fastapi import APIRouter, Depends,UploadFile,File,Form
 from sqlalchemy.orm import Session
 from database import get_db
@@ -26,6 +27,8 @@ def upload_song(song:UploadFile=File(...),
                 hex_code:str=Form(...),
                 db:Session=Depends(get_db),
                 auth_dict=Depends(auth_middleware)):
+    song_id=str(uuid.uuid4())
+    cloudinary.uploader.upload(song.file,resorce_type='auto',folder='songs/{song_id}'),
     pass
 
 
