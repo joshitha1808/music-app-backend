@@ -28,7 +28,16 @@ def upload_song(song:UploadFile=File(...),
                 db:Session=Depends(get_db),
                 auth_dict=Depends(auth_middleware)):
     song_id=str(uuid.uuid4())
-    cloudinary.uploader.upload(song.file,resorce_type='auto',folder='songs/{song_id}'),
+    song_res=cloudinary.uploader.upload(song.file,resorce_type='auto',folder=f'songs/{song_id}'),
+    print(song_res)
+    thumbnail_res=cloudinary.uploader.upload(thumbnail.file,resorce_type='image',folder=f'songs/{song_id}'),
+    print(thumbnail_res)
+    #store data in db
+    return 'ok'
+
+
+
+
     pass
 
 
