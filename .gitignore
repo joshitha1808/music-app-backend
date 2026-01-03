@@ -1,0 +1,10 @@
+# Ignore the secret variables
+.env
+
+# Ignore the virtual environments
+venv/
+.venv/
+
+# Ignore Python cache (This removes those extra "D" and "U" cache files)
+**/__pycache__/
+*.py[cod]
