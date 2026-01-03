@@ -46,8 +46,8 @@ def upload_song(
         folder=f'songs/{song_id}'
     )
 
-    print(song_res)
-    print(thumbnail_res)
+    print(song_res['url'])
+    print(thumbnail_res['url'])
 
     # Example: access user id from token
     user_id = auth_dict["uid"]
