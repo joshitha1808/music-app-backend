@@ -2,7 +2,7 @@ from sqlalchemy import TEXT, VARCHAR, Column
 from models.base import Base
 
 class Song(Base):
-    __tablename_='songs'
+    __tablename__='songs'
 
     id=Column(TEXT,primary_key=True)
     song_url=Column(TEXT)
