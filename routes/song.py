@@ -20,7 +20,7 @@ cloudinary.config(
     secure=True
 )
 
-@router.post('/upload')
+@router.post('/upload',status_code=201)
 def upload_song(
     song: UploadFile = File(...),
     thumbnail: UploadFile = File(...),
