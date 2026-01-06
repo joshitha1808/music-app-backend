@@ -8,6 +8,8 @@ import cloudinary.uploader
 from dotenv import load_dotenv
 import os
 
+from models.song import Song
+
 router = APIRouter()
 
 load_dotenv()
@@ -45,18 +47,18 @@ def upload_song(
         resource_type='image',
         folder=f'songs/{song_id}'
     )
+    new_song= Song(id=song_id, 
+                   song_name=song_name,
+                   artist=artist,
+                   hex_code=hex_code,
+                   song_url=song_res['url'],
+                   thumbnail_url=thumbnail_res['url']
+                   )
+    db.add(new_song)
+    db.commit()
+    db.refresh(new_song)
+    return new_song
 
-    print(song_res['url'])
-    print(thumbnail_res['url'])
+   
 
-    # Example: access user id from token
-    user_id = auth_dict["uid"]
-
-    # TODO: store data in DB
-
-    return {
-        "message": "Song uploaded successfully",
-        "song_url": song_res["secure_url"],
-        "thumbnail_url": thumbnail_res["secure_url"],
-        "user_id": user_id
-    }
+    
