@@ -14,15 +14,15 @@ router = APIRouter()
 
 load_dotenv()
 
-
+# Cloudinary configuration
 cloudinary.config(
     cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
     api_key=os.getenv("CLOUDINARY_API_KEY"),
     api_secret=os.getenv("CLOUDINARY_API_SECRET"),
-    secure=True
+    secure=True  
 )
 
-@router.post('/upload',status_code=201)
+@router.post('/upload', status_code=201)
 def upload_song(
     song: UploadFile = File(...),
     thumbnail: UploadFile = File(...),
@@ -47,24 +47,23 @@ def upload_song(
         resource_type='image',
         folder=f'songs/{song_id}'
     )
-    new_song= Song(id=song_id, 
-                   song_name=song_name,
-                   artist=artist,
-                   hex_code=hex_code,
-                   song_url=song_res['url'],
-                   thumbnail_url=thumbnail_res['url']
-                   )
+    new_song = Song(
+        id=song_id,
+        song_name=song_name,
+        artist=artist,
+        hex_code=hex_code,
+        song_url=song_res['secure_url'],          
+        thumbnail_url=thumbnail_res['secure_url'] 
+    )
     db.add(new_song)
     db.commit()
     db.refresh(new_song)
     return new_song
 
 @router.get('/list')
-def list_songs(db: Session=Depends(get_db),auth_details=Depends(auth_middleware)):
-    songs=db.query(Song).all()
+def list_songs(
+    db: Session = Depends(get_db),
+    auth_details = Depends(auth_middleware)
+):
+    songs = db.query(Song).all()
     return songs
-
-
-   
-
-    
