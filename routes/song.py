@@ -8,7 +8,9 @@ import cloudinary.uploader
 from dotenv import load_dotenv
 import os
 
+from models.favorite import Favorite
 from models.song import Song
+from pydantic_schemas.favorite_song import FavoriteSong
 
 router = APIRouter()
 
@@ -67,3 +69,22 @@ def list_songs(
 ):
     songs = db.query(Song).all()
     return songs
+
+@router.post('/favorite')
+def favorite_song(fav_song:FavoriteSong
+                  ,db:Session=Depends(get_db),
+                  auth_details = Depends(auth_middleware)):
+    #song id already favorited by user
+    user_id=auth_details['uid']
+
+    fav_song=db.query(Favorite).filter(Favorite.Song_id==fav_song.song_id,Favorite.user_id==user_id)
+    if fav_song:
+        db.delete(fav_song)
+        db.commit()
+        return {'message':False}
+    else:
+        new_
+    #if the song is already favorited,unfavorite the song
+    #if the songs is not favorited,fav the song
+
+    pass
