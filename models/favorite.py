@@ -8,5 +8,6 @@ class Favorite(Base):
     song_id = Column(TEXT, ForeignKey("songs.id"))
     user_id = Column(TEXT, ForeignKey("users.id"))
 
-    song=relationship('Song') 
+    song=relationship('Song')
+    user=relationship('User',back_populates='favotites') 
  
